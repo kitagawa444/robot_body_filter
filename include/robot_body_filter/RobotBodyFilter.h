@@ -135,6 +135,12 @@ protected:
    */
   ros::Duration modelPoseUpdateInterval;
 
+  
+  /** \brief tf prefix for robot discription
+   */
+  
+  std::string tf_prefix;
+  
   /** \brief Fixed frame wrt the sensor frame.
    * Usually base_link for stationary robots (or sensor frame if both
    * robot and sensor are stationary). For mobile robots, it can be e.g.

@@ -53,7 +53,8 @@ bool RobotBodyFilter<T>::configure() {
     // clear the TF buffer (useful if calling configure() after receiving old TF data)
     this->tfBuffer->clear();
   }
-
+  
+  this->tf_prefix = this->getParamVerbose("tf_prefix", "");
   this->fixedFrame = this->getParamVerbose("frames/fixed", "base_link");
   stripLeadingSlash(this->fixedFrame, true);
   this->sensorFrame = this->getParamVerbose("frames/sensor", "");
@@ -973,7 +974,8 @@ void RobotBodyFilter<T>::addRobotMaskFromUrdf(const string& urdfModel) {
     // add all model's collision links as masking shapes
     for (const auto &links : parsedUrdfModel.links_) {
 
-      const auto& link = links.second;
+      auto& link = links.second;
+      link->name = !this->tf_prefix.empty() ? this->tf_prefix + "/" + link->name : link->name;
 
       // every link can have multiple collision elements
       size_t collisionIndex = 0;
