@@ -256,7 +256,8 @@ bool RobotBodyFilter<T>::configure() {
 
   if (this->publishDebugPclInside)
   {
-    this->debugPointCloudInsidePublisher = this->nodeHandle.template advertise<sensor_msgs::PointCloud2>("scan_point_cloud_inside", 100);
+    std::string pcl_inside_topic_name = !this->tf_prefix.empty() ? "robot_scan/" + this->tf_prefix : "scan_point_cloud_inside" ;
+    this->debugPointCloudInsidePublisher =  this->nodeHandle.template advertise<sensor_msgs::PointCloud2>(pcl_inside_topic_name, 100) ;
   }
 
   if (this->publishDebugPclClip)
